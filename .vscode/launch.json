@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "type": "cppvsdbg",
+            "type": "cppdbg",
             "request": "launch",
             "name": "cargo run -p mcfriendo",
             "cwd": "${workspaceFolder}",
@@ -10,10 +10,6 @@
                 {
                     "name": "RUST_BACKTRACE",
                     "value": "short"
-                },
-                {
-                    "name": "RUSTC_TOOLCHAIN",
-                    "value": "C:\\Users\\nzhul\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc"
                 }
             ],
             "args": [],

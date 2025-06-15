@@ -8,9 +8,6 @@ use dotenvy::dotenv;
 use std::env;
 use sentry::ClientInitGuard;
 use teloxide::prelude::*;
-use teloxide::dispatching::UpdateFilterExt;
-use teloxide::types::Update;
-use teloxide::utils::command::BotCommands;
 use log::info;
 
 #[tokio::main]
@@ -24,11 +21,11 @@ async fn main() {
     // Webhook setup (placeholder)
     // TODO: Реализовать установку вебхука через BASE_WEBHOOK_URL
 
-    Dispatcher::builder(bot, schema())
-        .enable_ctrlc_handler()
-        .build()
-        .dispatch()
-        .await;
+    teloxide::repl(bot, |bot: Bot, msg: Message| async move {
+        bot.send_dice(msg.chat.id).await?;
+        Ok(())
+    })
+    .await;
 }
 
 fn init_sentry() -> ClientInitGuard {
@@ -37,9 +34,4 @@ fn init_sentry() -> ClientInitGuard {
         release: sentry::release_name!(),
         ..Default::default()
     }))
-}
-
-fn schema() -> UpdateFilterDispatcher<AutoSend<Bot>, Update> {
-    // TODO: Реализовать маршрутизацию команд и обработчиков
-    Update::filter_message().chain(dptree::endpoint(handlers::message_handler))
 }
